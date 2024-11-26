@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: survey-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: survey-app
+  template:
+    metadata:
+      labels:
+        app: survey-app
+    spec:
+      containers:
+        - name: survey-app
+          image: karanmonga/survey-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080

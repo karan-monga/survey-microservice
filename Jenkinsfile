@@ -17,6 +17,12 @@ pipeline {
             }
         }
 
+        stage('Create Maven') {
+                    steps {
+                        sh 'mvn clean package'
+                    }
+                }
+
         stage('Build & Push') {
             steps {
                 script {
