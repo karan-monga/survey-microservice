@@ -5,8 +5,8 @@ pipeline {
         IMAGE_NAME = 'karanmonga/survey-app'
         DOCKER_HUB_CREDENTIALS = credentials('docker-token')
         GOOGLE_CREDENTIALS = credentials('gcp-service-account')
-        CLUSTER_NAME = 'survey-cluster'
-        CLUSTER_ZONE = 'us-east1-b'
+        CLUSTER_NAME = 'swe645-h3-cluster'
+        CLUSTER_ZONE = 'us-east1'
         PROJECT_ID = 'concise-orb-439615-r5'
     }
 
@@ -18,10 +18,10 @@ pipeline {
         }
 
         stage('Create Maven') {
-                    steps {
-                        sh 'mvn clean install'
-                    }
-                }
+            steps {
+                sh 'mvn clean install'
+            }
+        }
 
         stage('Build & Push') {
             steps {
@@ -35,13 +35,15 @@ pipeline {
             }
         }
 
-        stage('Deploy'){
+        stage('Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GC_KEY')]) {
                     sh """
                         gcloud auth activate-service-account --key-file=\$GC_KEY
                         gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
-                        kubectl set image deployment/survey-app-deployment survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f service.yaml
+                        kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
                     """
                 }
             }
