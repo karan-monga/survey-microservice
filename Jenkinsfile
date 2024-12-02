@@ -36,12 +36,15 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh """
-                    gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
-                    kubectl apply -f deployment.yaml
-                    kubectl apply -f service.yaml
-                    kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
-                """
+                withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GC_KEY')]) {
+                    sh """
+                        gcloud auth activate-service-account --key-file=\$GC_KEY
+                        gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
+                        kubectl apply -f deployment.yaml
+                        kubectl apply -f service.yaml
+                        kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
+                    """
+                }
             }
         }
 
