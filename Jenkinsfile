@@ -7,8 +7,9 @@ pipeline {
         CLUSTER_NAME = 'swe645-h3-cluster'
         CLUSTER_ZONE = 'us-east1'
         PROJECT_ID = 'concise-orb-439615-r5'
-//         PATH = "/home/ubuntu/google-cloud-sdk/bin:${env.PATH}"
+        PATH = "/home/ubuntu/google-cloud-sdk/bin:$PATH"
         USE_GKE_GCLOUD_AUTH_PLUGIN = "True"
+        UBECONFIG = "/home/ubuntu/.kube/config"
     }
 
     stages {
@@ -40,14 +41,19 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GC_KEY')]) {
                     sh """
+                        echo "Checking kubectl path..."
+                        which kubectl
+                        echo "PATH contents:"
+                        echo $PATH
+
                         gcloud auth activate-service-account --key-file=$GC_KEY
                         gcloud container clusters get-credentials swe645-h3-cluster --zone us-east1 --project concise-orb-439615-r5
-                        kubectl apply -f deployment.yaml
 
+                        echo "Attempting to run kubectl..."
+                        /home/ubuntu/google-cloud-sdk/bin/kubectl version
+                        /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f deployment.yaml
                     """
                 }
-
-
             }
         }
 
