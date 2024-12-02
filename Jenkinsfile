@@ -40,8 +40,8 @@ pipeline {
                     sh """
                         gcloud auth activate-service-account --key-file="\$GC_KEY"
                         gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
-                        kubectl apply -f deployment.yaml
-                        kubectl apply -f service.yaml
+                        /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f deployment.yaml
+                        /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f service.yaml
                         kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
                     """
 
