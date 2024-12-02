@@ -44,7 +44,6 @@ pipeline {
                         /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f service.yaml
                         kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
                     """
-
                 }
             }
         }
