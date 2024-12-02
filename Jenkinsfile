@@ -39,11 +39,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GC_KEY')]) {
                     sh """
                         gcloud auth activate-service-account --key-file=\$GC_KEY
-                        gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
-                        /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f deployment.yaml
-                        /home/ubuntu/google-cloud-sdk/bin/kubectl apply -f service.yaml
+                        gcloud container clusters get-credentials swe645-h3-cluster --zone us-east1 --project concise-orb-439615-r5
                     """
                 }
+
             }
         }
 
