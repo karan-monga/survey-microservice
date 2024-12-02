@@ -55,15 +55,7 @@ pipeline {
                         echo "Configuring kubectl..."
                         gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE}
 
-                        echo "Updating deployment image to version ${BUILD_NUMBER}..."
-                        sed -i "s|image: gcr.io/concise-orb-439615-r5/survey-app:.*|image: gcr.io/concise-orb-439615-r5/survey-app:${BUILD_NUMBER}|g" deployment.yaml
-
-                        echo "Applying Kubernetes manifests..."
-                        kubectl apply -f deployment.yaml
-                        kubectl apply -f service.yaml
-
-
-
+                        kubectl set image deployment/surveyapp surveyapp=${IMAGE_NAME}:${BUILD_NUMBER} --record
                     '''
                 }
             }
