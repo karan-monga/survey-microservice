@@ -4,7 +4,6 @@ pipeline {
     environment {
         IMAGE_NAME = 'karanmonga/survey-app'
         DOCKER_HUB_CREDENTIALS = credentials('docker-token')
-        GOOGLE_CREDENTIALS = credentials('gcp-service-account')
         CLUSTER_NAME = 'swe645-h3-cluster'
         CLUSTER_ZONE = 'us-east1'
         PROJECT_ID = 'concise-orb-439615-r5'
@@ -37,15 +36,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GC_KEY')]) {
-                    sh """
-                        gcloud container clusters get-credentials swe645-h3-cluster --zone us-east1
-                        kubectl apply -f deployment.yaml
-                        kubectl apply -f service.yaml
-                        kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
-                    """
-                }
+                sh """
+                    gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE} --project ${PROJECT_ID}
+                    kubectl apply -f deployment.yaml
+                    kubectl apply -f service.yaml
+                    kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER}
+                """
             }
         }
+
     }
 }
