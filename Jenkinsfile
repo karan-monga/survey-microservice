@@ -55,7 +55,7 @@ pipeline {
                         echo "Configuring kubectl..."
                         gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${CLUSTER_ZONE}
 
-                        kubectl set image deployment/surveyapp surveyapp=${IMAGE_NAME}:${BUILD_NUMBER} --record
+                        kubectl set image deployment/survey-app survey-app=${IMAGE_NAME}:${BUILD_NUMBER} --record
                     '''
                 }
             }
