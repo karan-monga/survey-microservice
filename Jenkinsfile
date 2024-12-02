@@ -7,6 +7,7 @@ pipeline {
         CLUSTER_NAME = 'swe645-h3-cluster'
         CLUSTER_ZONE = 'us-east1'
         PROJECT_ID = 'concise-orb-439615-r5'
+        PATH = "/home/ubuntu/google-cloud-sdk/bin:${env.PATH}"
     }
 
     stages {
@@ -40,7 +41,7 @@ pipeline {
                     sh """
                         gcloud auth activate-service-account --key-file=$GC_KEY
                         gcloud container clusters get-credentials swe645-h3-cluster --zone us-east1 --project concise-orb-439615-r5
-                        kubectl apply -f deployment.yaml
+                        "/home/ubuntu/google-cloud-sdk/bin/kubectl apply -f deployment.yaml"
                     """
                 }
 
