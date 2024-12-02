@@ -62,27 +62,12 @@ pipeline {
                         kubectl apply -f deployment.yaml
                         kubectl apply -f service.yaml
 
-                        echo "Verifying deployment..."
-                        kubectl rollout status deployment/survey-app
 
-                        echo "Deployment details:"
-                        kubectl get deployments
-                        kubectl get pods
+
                     '''
                 }
             }
         }
     }
 
-    post {
-        success {
-            echo 'Deployment completed successfully!'
-        }
-        failure {
-            echo 'Deployment failed. Please check the logs above.'
-        }
-        always {
-            sh 'docker logout'
-        }
-    }
 }
