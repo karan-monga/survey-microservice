@@ -1,9 +1,9 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 # Deployment API version
 kind: Deployment
 metadata:
   name: survey-app
 spec:
-  replicas: 3
+  replicas: 3 # Number of pod replicas
   selector:
     matchLabels:
       app: survey-app
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: survey-app
-          image: karanmonga/survey-app:9
+          image: karanmonga/survey-app:9 # Docker image with tag
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8080 # Exposed container port

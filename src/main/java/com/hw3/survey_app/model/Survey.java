@@ -3,12 +3,13 @@ package com.hw3.survey_app.model;
 import jakarta.persistence.*;
 import java.util.Date;
 
-@Entity
+@Entity // Marks this class as a JPA entity mapped to a database table
 public class Survey {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Specifies the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates unique IDs for each survey
     private Long id;
 
+    // Basic details about the respondent
     private String firstName;
     private String lastName;
     private String address;
@@ -18,14 +19,15 @@ public class Survey {
     private String telephone;
     private String email;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE) // Maps this field to a DATE column in the database
     private Date dateOfSurvey;
 
+    // Fields capturing survey-specific preferences
     private String likedMost; // Options: students, location, campus, etc.
     private String interestedBy; // Options: friends, television, etc.
     private String recommendationLikelihood; // Options: Very Likely, Likely, Unlikely
 
-    // Getters and Setters
+    // Getters and Setters for encapsulation and access to private fields
     public Long getId() {
         return id;
     }
