@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SWE 645 - HW3 - Student Survey Microservice Application
 
 ## Introduction
@@ -393,3 +394,29 @@ DELETE http://EXTERNAL_IP/api/surveys/{id}
 -Postman: https://www.postman.com/
 
 
+=======
+# frontend
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+>>>>>>> b5e405d (Added Vue frontend)
