@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SWE 645 - HW3 - Student Survey Microservice Application
 
 ## Introduction
